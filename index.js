@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 app.use(express.json());
+app.use(logger);
 
 let courses = [ {
     id: 1,
@@ -55,6 +56,21 @@ app.delete('/courses/:id', (req, res) => {
     res.json(course);
 });
 
+
+function middleware(req, res, next) {
+    console.log("middleware");
+    next();
+}
+
+// logger method ,ip,hostname,date
+
+function logger(req, res, next) {
+    console.log("ip:", req.ip);
+    console.log("method:", req.method);
+    console.log("hostname:", req.hostname);
+    console.log("date:", new Date());
+    next();
+}
 app.listen(3000,()=>{
     console.log("Server is running on port 3000");
 })
